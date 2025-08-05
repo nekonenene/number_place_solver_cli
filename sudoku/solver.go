@@ -2,6 +2,8 @@ package sudoku
 
 // Solve はバックトラッキングアルゴリズムを使用して数独パズルを解くことを試みる
 func (b *Board) Solve() bool {
+	// 統計情報をリセット
+	b.stats = SolveStats{}
 	return b.solveRecursive()
 }
 
@@ -19,6 +21,7 @@ func (b *Board) solveRecursive() bool {
 		if b.IsValid(row, col, num) {
 			// 数字を配置
 			b.grid[row][col] = num
+			b.stats.CellsSet++
 
 			// 残りを再帰的に解く
 			if b.solveRecursive() {
@@ -27,6 +30,7 @@ func (b *Board) solveRecursive() bool {
 
 			// バックトラック：解に繋がらない場合は数字を削除
 			b.grid[row][col] = 0
+			b.stats.BacktrackCount++
 		}
 	}
 

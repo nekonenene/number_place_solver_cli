@@ -185,7 +185,7 @@ func (b *Board) FromSimpleString(input string) error {
 func (b *Board) LoadFromInteractiveInput() error {
 	fmt.Println("数独の問題を入力してください（9行×9列）")
 	fmt.Println("空欄は半角スペース、ドット(.)、または0で入力できます")
-	fmt.Println("例: 5 3 . . 7 . . . .")
+	fmt.Println("例: 53..7....")
 	fmt.Println()
 
 	scanner := bufio.NewScanner(os.Stdin)

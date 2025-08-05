@@ -7,6 +7,13 @@ const SIZE = 9 // 数独盤面のサイズ
 // Board は検証と解法機能を持つ数独盤面を表す
 type Board struct {
 	grid [SIZE][SIZE]int
+	stats SolveStats // 解法統計情報
+}
+
+// SolveStats は解法の統計情報を保持する
+type SolveStats struct {
+	BacktrackCount int // バックトラック回数
+	CellsSet       int // 設定したセル数
 }
 
 // NewBoard は新しい空の数独盤面を作成する
@@ -131,4 +138,9 @@ func (b *Board) IsSolved() bool {
 		}
 	}
 	return true
+}
+
+// GetStats は解法統計情報を返す
+func (b *Board) GetStats() SolveStats {
+	return b.stats
 }
