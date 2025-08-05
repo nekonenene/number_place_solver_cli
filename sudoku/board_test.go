@@ -223,3 +223,64 @@ func TestFromSimpleString(t *testing.T) {
 		t.Errorf("Expected 0 at (0,2), got %d", board.GetCell(0, 2))
 	}
 }
+
+// TestLoadFromStringWithSpaces はスペース区切り入力をテスト
+func TestLoadFromStringWithSpaces(t *testing.T) {
+	board := NewBoard()
+
+	// スペース区切り形式でのテスト
+	spaceInput := `5 3 . . 7 . . . .
+6 . . 1 9 5 . . .
+. 9 8 . . . . 6 .
+8 . . . 6 . . . 3
+4 . . 8 . 3 . . 1
+7 . . . 2 . . . 6
+. 6 . . . . 2 8 .
+. . . 4 1 9 . . 5
+. . . . 8 . . 7 9`
+
+	err := board.LoadFromString(spaceInput)
+	if err != nil {
+		t.Fatalf("LoadFromString with spaces failed: %v", err)
+	}
+
+	// 検証
+	if board.GetCell(0, 0) != 5 {
+		t.Errorf("Expected 5 at (0,0), got %d", board.GetCell(0, 0))
+	}
+	if board.GetCell(0, 2) != 0 {
+		t.Errorf("Expected 0 at (0,2), got %d", board.GetCell(0, 2))
+	}
+}
+
+// TestLoadFromStringWithMixedSpaces は半角スペースを空欄として使用する入力をテスト
+func TestLoadFromStringWithMixedSpaces(t *testing.T) {
+	board := NewBoard()
+
+	// 半角スペースを空欄として使用（9文字固定）
+	mixedInput := `53  7    
+6  195   
+ 98    6 
+8   6   3
+4  8 3  1
+7   2   6
+ 6    28 
+   419  5
+   8  7 9`
+
+	err := board.LoadFromString(mixedInput)
+	if err != nil {
+		t.Fatalf("LoadFromString with mixed spaces failed: %v", err)
+	}
+
+	// 検証
+	if board.GetCell(0, 0) != 5 {
+		t.Errorf("Expected 5 at (0,0), got %d", board.GetCell(0, 0))
+	}
+	if board.GetCell(0, 2) != 0 {
+		t.Errorf("Expected 0 at (0,2), got %d", board.GetCell(0, 2))
+	}
+	if board.GetCell(1, 1) != 0 {
+		t.Errorf("Expected 0 at (1,1), got %d", board.GetCell(1, 1))
+	}
+}
