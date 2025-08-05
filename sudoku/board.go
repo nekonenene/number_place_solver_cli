@@ -2,29 +2,29 @@ package sudoku
 
 import "fmt"
 
-const SIZE = 9 // サイズ定数
+const SIZE = 9 // 数独盤面のサイズ
 
-// Board represents a sudoku board with validation and solving capabilities
+// Board は検証と解法機能を持つ数独盤面を表す
 type Board struct {
 	grid [SIZE][SIZE]int
 }
 
-// NewBoard creates a new empty sudoku board
+// NewBoard は新しい空の数独盤面を作成する
 func NewBoard() *Board {
 	return &Board{}
 }
 
-// SetBoard sets the board with the provided 9x9 grid
+// SetBoard は指定された9x9グリッドで盤面を設定する
 func (b *Board) SetBoard(grid [SIZE][SIZE]int) {
 	b.grid = grid
 }
 
-// GetBoard returns a copy of the current board state
+// GetBoard は現在の盤面状態のコピーを返す
 func (b *Board) GetBoard() [SIZE][SIZE]int {
 	return b.grid
 }
 
-// SetCell sets a value at the specified position
+// SetCell は指定された位置に値を設定する
 func (b *Board) SetCell(row, col, value int) bool {
 	if row < 0 || row >= SIZE || col < 0 || col >= SIZE {
 		return false
@@ -36,7 +36,7 @@ func (b *Board) SetCell(row, col, value int) bool {
 	return true
 }
 
-// GetCell returns the value at the specified position
+// GetCell は指定された位置の値を返す
 func (b *Board) GetCell(row, col int) int {
 	if row < 0 || row >= SIZE || col < 0 || col >= SIZE {
 		return -1
@@ -44,12 +44,12 @@ func (b *Board) GetCell(row, col int) int {
 	return b.grid[row][col]
 }
 
-// IsEmpty checks if a cell is empty (contains 0)
+// IsEmpty はセルが空かどうか（0が入っているか）をチェック
 func (b *Board) IsEmpty(row, col int) bool {
 	return b.GetCell(row, col) == 0
 }
 
-// Print displays the current board state in a formatted way
+// Print は現在の盤面状態を整形した形で表示する
 func (b *Board) Print() {
 	for i := 0; i < SIZE; i++ {
 		if i%3 == 0 {
@@ -70,23 +70,23 @@ func (b *Board) Print() {
 	fmt.Println("+-------+-------+-------+")
 }
 
-// IsValid checks if placing a number at the given position is valid
+// IsValid は指定された位置に数字を配置できるかどうかをチェック
 func (b *Board) IsValid(row, col, num int) bool {
-	// Check row constraint
+	// 行の制約をチェック
 	for j := 0; j < SIZE; j++ {
 		if b.grid[row][j] == num {
 			return false
 		}
 	}
 
-	// Check column constraint
+	// 列の制約をチェック
 	for i := 0; i < SIZE; i++ {
 		if b.grid[i][col] == num {
 			return false
 		}
 	}
 
-	// Check 3x3 box constraint
+	// 3x3ボックスの制約をチェック
 	boxRow := (row / 3) * 3
 	boxCol := (col / 3) * 3
 	for i := boxRow; i < boxRow+3; i++ {
@@ -100,7 +100,7 @@ func (b *Board) IsValid(row, col, num int) bool {
 	return true
 }
 
-// IsComplete checks if the board is completely filled
+// IsComplete は盤面が完全に埋められているかどうかをチェック
 func (b *Board) IsComplete() bool {
 	for i := 0; i < SIZE; i++ {
 		for j := 0; j < SIZE; j++ {
@@ -112,22 +112,22 @@ func (b *Board) IsComplete() bool {
 	return true
 }
 
-// IsSolved checks if the board is both complete and valid
+// IsSolved は盤面が完成しておりかつ有効かどうかをチェック
 func (b *Board) IsSolved() bool {
 	if !b.IsComplete() {
 		return false
 	}
 
-	// Check all constraints
+	// 全ての制約をチェック
 	for i := 0; i < SIZE; i++ {
 		for j := 0; j < SIZE; j++ {
 			num := b.grid[i][j]
-			b.grid[i][j] = 0 // Temporarily remove to check validity
+			b.grid[i][j] = 0 // 有効性チェックのため一時的に削除
 			if !b.IsValid(i, j, num) {
-				b.grid[i][j] = num // Restore
+				b.grid[i][j] = num // もとに戻す
 				return false
 			}
-			b.grid[i][j] = num // Restore
+			b.grid[i][j] = num // もとに戻す
 		}
 	}
 	return true

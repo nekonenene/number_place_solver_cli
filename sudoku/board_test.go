@@ -5,14 +5,14 @@ import (
 	"testing"
 )
 
-// TestNewBoard tests board creation
+// TestNewBoard は盤面作成をテスト
 func TestNewBoard(t *testing.T) {
 	board := NewBoard()
 	if board == nil {
 		t.Fatal("NewBoard() returned nil")
 	}
 
-	// Check if board is empty
+	// 盤面が空かどうかをチェック
 	for i := 0; i < SIZE; i++ {
 		for j := 0; j < SIZE; j++ {
 			if board.GetCell(i, j) != 0 {
@@ -22,11 +22,11 @@ func TestNewBoard(t *testing.T) {
 	}
 }
 
-// TestSetAndGetCell tests cell manipulation
+// TestSetAndGetCell はセル操作をテスト
 func TestSetAndGetCell(t *testing.T) {
 	board := NewBoard()
 
-	// Test valid operations
+	// 有効な操作をテスト
 	if !board.SetCell(0, 0, 5) {
 		t.Error("SetCell(0, 0, 5) should succeed")
 	}
@@ -34,7 +34,7 @@ func TestSetAndGetCell(t *testing.T) {
 		t.Errorf("GetCell(0, 0) = %d, want 5", board.GetCell(0, 0))
 	}
 
-	// Test boundary conditions
+	// 境界条件をテスト
 	if board.SetCell(-1, 0, 5) {
 		t.Error("SetCell(-1, 0, 5) should fail")
 	}
@@ -48,7 +48,7 @@ func TestSetAndGetCell(t *testing.T) {
 		t.Error("SetCell(0, SIZE, 5) should fail")
 	}
 
-	// Test invalid values
+	// 無効な値をテスト
 	if board.SetCell(0, 1, -1) {
 		t.Error("SetCell(0, 1, -1) should fail")
 	}
@@ -56,7 +56,7 @@ func TestSetAndGetCell(t *testing.T) {
 		t.Error("SetCell(0, 1, 10) should fail")
 	}
 
-	// Test boundary get operations
+	// 境界取得操作をテスト
 	if board.GetCell(-1, 0) != -1 {
 		t.Error("GetCell(-1, 0) should return -1")
 	}
@@ -65,11 +65,11 @@ func TestSetAndGetCell(t *testing.T) {
 	}
 }
 
-// TestIsValid tests the validation logic
+// TestIsValid は検証ロジックをテスト
 func TestIsValid(t *testing.T) {
 	board := NewBoard()
 
-	// Set up a test configuration
+	// テスト設定をセットアップ
 	testGrid := [SIZE][SIZE]int{
 		{5, 3, 0, 0, 7, 0, 0, 0, 0},
 		{6, 0, 0, 1, 9, 5, 0, 0, 0},
@@ -83,28 +83,28 @@ func TestIsValid(t *testing.T) {
 	}
 	board.SetBoard(testGrid)
 
-	// Test row constraint
+	// 行の制約をテスト
 	if board.IsValid(0, 2, 5) { // 5 already exists in row 0
 		t.Error("Should detect row constraint violation")
 	}
 
-	// Test column constraint
+	// 列の制約をテスト
 	if board.IsValid(2, 0, 5) { // 5 already exists in column 0
 		t.Error("Should detect column constraint violation")
 	}
 
-	// Test box constraint
+	// ボックスの制約をテスト
 	if board.IsValid(1, 1, 3) { // 3 already exists in the same 3x3 box
 		t.Error("Should detect box constraint violation")
 	}
 
-	// Test valid placement
+	// 有効な配置をテスト
 	if !board.IsValid(0, 2, 4) {
 		t.Error("Should allow valid placement")
 	}
 }
 
-// TestLoadFromString tests string input parsing
+// TestLoadFromString は文字列入力の解析をテスト
 func TestLoadFromString(t *testing.T) {
 	board := NewBoard()
 
@@ -123,7 +123,7 @@ func TestLoadFromString(t *testing.T) {
 		t.Fatalf("LoadFromString failed: %v", err)
 	}
 
-	// Check specific values
+	// 特定の値をチェック
 	if board.GetCell(0, 0) != 5 {
 		t.Errorf("Expected 5 at (0,0), got %d", board.GetCell(0, 0))
 	}
@@ -131,7 +131,7 @@ func TestLoadFromString(t *testing.T) {
 		t.Errorf("Expected 0 at (0,2), got %d", board.GetCell(0, 2))
 	}
 
-	// Test invalid input
+	// 無効な入力をテスト
 	invalidInput := "invalid input"
 	err = board.LoadFromString(invalidInput)
 	if err == nil {
@@ -139,11 +139,11 @@ func TestLoadFromString(t *testing.T) {
 	}
 }
 
-// TestSolve tests the solving algorithm
+// TestSolve は解法アルゴリズムをテスト
 func TestSolve(t *testing.T) {
 	board := NewBoard()
 
-	// Load a known solvable puzzle
+	// 既知の解可能パズルを読み込み
 	puzzle := `5 3 . . 7 . . . .
 6 . . 1 9 5 . . .
 . 9 8 . . . . 6 .
@@ -168,7 +168,7 @@ func TestSolve(t *testing.T) {
 	}
 }
 
-// TestToSimpleString tests simple string conversion
+// TestToSimpleString はシンプル文字列変換をテスト
 func TestToSimpleString(t *testing.T) {
 	board := NewBoard()
 	testGrid := [SIZE][SIZE]int{
@@ -198,7 +198,7 @@ func TestToSimpleString(t *testing.T) {
 	}
 }
 
-// TestFromSimpleString tests simple string parsing
+// TestFromSimpleString はシンプル文字列解析をテスト
 func TestFromSimpleString(t *testing.T) {
 	board := NewBoard()
 	input := `53..7....

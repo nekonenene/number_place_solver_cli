@@ -6,15 +6,14 @@ import (
 	"sudoku_solver/sudoku"
 )
 
-// main serves as the entry point of the sudoku solver application
 func main() {
 	fmt.Println("Sudoku Solver")
 	fmt.Println("=============")
 
-	// Create a sample sudoku puzzle for testing
+	// 空の数独盤面を作成
 	puzzle := sudoku.NewBoard()
 
-	// Load a test puzzle
+	// テストパズルを読み込み
 	testPuzzle := [9][9]int{
 		{5, 3, 0, 0, 7, 0, 0, 0, 0},
 		{6, 0, 0, 1, 9, 5, 0, 0, 0},
@@ -32,7 +31,7 @@ func main() {
 	fmt.Println("Original puzzle:")
 	puzzle.Print()
 
-	// Solve the puzzle
+	// パズルを解く
 	if puzzle.Solve() {
 		fmt.Println("\nSolved puzzle:")
 		puzzle.Print()

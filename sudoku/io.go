@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-// LoadFromString loads a sudoku puzzle from a string representation
+// LoadFromString は文字列表現から数独パズルを読み込む
 func (b *Board) LoadFromString(input string) error {
 	lines := strings.Split(strings.TrimSpace(input), "\n")
 	if len(lines) != SIZE {
@@ -16,13 +16,13 @@ func (b *Board) LoadFromString(input string) error {
 	}
 
 	for i, line := range lines {
-		// Remove spaces and parse numbers
+		// スペースを削除して数字を解析
 		line = strings.ReplaceAll(line, " ", "")
 		line = strings.ReplaceAll(line, "|", "")
 		line = strings.ReplaceAll(line, "+", "")
 		line = strings.ReplaceAll(line, "-", "")
 
-		// Filter out non-digit characters except '.' and '0'
+		// '.'と'0'以外の非数字文字をフィルタリング
 		var digits []rune
 		for _, r := range line {
 			if (r >= '0' && r <= '9') || r == '.' {
@@ -52,14 +52,14 @@ func (b *Board) LoadFromString(input string) error {
 	return nil
 }
 
-// LoadFromReader loads a sudoku puzzle from an io.Reader
+// LoadFromReader はio.Readerから数独パズルを読み込む
 func (b *Board) LoadFromReader(reader io.Reader) error {
 	scanner := bufio.NewScanner(reader)
 	var lines []string
 
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
-		if line != "" && !strings.HasPrefix(line, "#") { // Skip empty lines and comments
+		if line != "" && !strings.HasPrefix(line, "#") { // 空行とコメントをスキップ
 			lines = append(lines, line)
 		}
 	}
@@ -72,7 +72,7 @@ func (b *Board) LoadFromReader(reader io.Reader) error {
 	return b.LoadFromString(input)
 }
 
-// SaveToString converts the board to a string representation
+// SaveToString は盤面を文字列表現に変換する
 func (b *Board) SaveToString() string {
 	var builder strings.Builder
 
@@ -97,13 +97,13 @@ func (b *Board) SaveToString() string {
 	return builder.String()
 }
 
-// SaveToWriter writes the board to an io.Writer
+// SaveToWriter は盤面をio.Writerに書き込む
 func (b *Board) SaveToWriter(writer io.Writer) error {
 	_, err := writer.Write([]byte(b.SaveToString()))
 	return err
 }
 
-// ToSimpleString converts the board to a simple 9-line format
+// ToSimpleString は盤面をシンプルな9行形式に変換する
 func (b *Board) ToSimpleString() string {
 	var builder strings.Builder
 
@@ -123,7 +123,7 @@ func (b *Board) ToSimpleString() string {
 	return builder.String()
 }
 
-// FromSimpleString loads from a simple 9-line format
+// FromSimpleString はシンプルな9行形式から読み込む
 func (b *Board) FromSimpleString(input string) error {
 	lines := strings.Split(strings.TrimSpace(input), "\n")
 	if len(lines) != SIZE {

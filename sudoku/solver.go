@@ -1,40 +1,40 @@
 package sudoku
 
-// Solve attempts to solve the sudoku puzzle using backtracking algorithm
+// Solve はバックトラッキングアルゴリズムを使用して数独パズルを解くことを試みる
 func (b *Board) Solve() bool {
 	return b.solveRecursive()
 }
 
-// solveRecursive implements the backtracking algorithm recursively
+// solveRecursive はバックトラッキングアルゴリズムを再帰的に実装
 func (b *Board) solveRecursive() bool {
-	// Find the first empty cell
+	// 最初の空のセルを見つける
 	row, col := b.findEmptyCell()
 	if row == -1 {
-		// No empty cell found, puzzle is solved
+		// 空のセルが見つからない、パズルは解けた
 		return true
 	}
 
-	// Try digits 1-9
+	// 1-9の数字を試す
 	for num := 1; num <= 9; num++ {
 		if b.IsValid(row, col, num) {
-			// Place the number
+			// 数字を配置
 			b.grid[row][col] = num
 
-			// Recursively solve the rest
+			// 残りを再帰的に解く
 			if b.solveRecursive() {
 				return true
 			}
 
-			// Backtrack: remove the number if it doesn't lead to a solution
+			// バックトラック：解に繋がらない場合は数字を削除
 			b.grid[row][col] = 0
 		}
 	}
 
-	// No valid number found for this cell
+	// このセルに有効な数字が見つからない
 	return false
 }
 
-// findEmptyCell finds the first empty cell (containing 0) in the board
+// findEmptyCell は盤面内の最初の空のセル（0を含む）を見つける
 func (b *Board) findEmptyCell() (int, int) {
 	for i := 0; i < SIZE; i++ {
 		for j := 0; j < SIZE; j++ {
@@ -46,41 +46,41 @@ func (b *Board) findEmptyCell() (int, int) {
 	return -1, -1 // No empty cell found
 }
 
-// SolveWithStrategy solves using the most constrained variable heuristic
+// SolveWithStrategy は最も制約の多い変数ヒューリスティックを使用して解く
 func (b *Board) SolveWithStrategy() bool {
 	return b.solveWithMCV()
 }
 
-// solveWithMCV implements backtracking with Most Constrained Variable heuristic
+// solveWithMCV は最も制約の多い変数ヒューリスティックでバックトラッキングを実装
 func (b *Board) solveWithMCV() bool {
-	// Find the empty cell with the fewest possibilities
+	// 最も可能性の少ない空のセルを見つける
 	row, col := b.findMostConstrainedCell()
 	if row == -1 {
-		// No empty cell found, puzzle is solved
+		// 空のセルが見つからない、パズルは解けた
 		return true
 	}
 
-	// Try digits 1-9
+	// 1-9の数字を試す
 	for num := 1; num <= 9; num++ {
 		if b.IsValid(row, col, num) {
-			// Place the number
+			// 数字を配置
 			b.grid[row][col] = num
 
-			// Recursively solve the rest
+			// 残りを再帰的に解く
 			if b.solveWithMCV() {
 				return true
 			}
 
-			// Backtrack: remove the number if it doesn't lead to a solution
+			// バックトラック：解に繋がらない場合は数字を削除
 			b.grid[row][col] = 0
 		}
 	}
 
-	// No valid number found for this cell
+	// このセルに有効な数字が見つからない
 	return false
 }
 
-// findMostConstrainedCell finds the empty cell with the fewest valid possibilities
+// findMostConstrainedCell は最も有効な可能性の少ない空のセルを見つける
 func (b *Board) findMostConstrainedCell() (int, int) {
 	bestRow, bestCol := -1, -1
 	minPossibilities := 10 // Maximum possibilities is 9
@@ -100,7 +100,7 @@ func (b *Board) findMostConstrainedCell() (int, int) {
 	return bestRow, bestCol
 }
 
-// countPossibilities counts how many valid numbers can be placed in a cell
+// countPossibilities はセルに配置可能な有効な数字の数を数える
 func (b *Board) countPossibilities(row, col int) int {
 	count := 0
 	for num := 1; num <= 9; num++ {
@@ -111,47 +111,47 @@ func (b *Board) countPossibilities(row, col int) int {
 	return count
 }
 
-// HasUniqueSolution checks if the puzzle has exactly one solution
+// HasUniqueSolution はパズルが正確に一つの解を持つかどうかをチェック
 func (b *Board) HasUniqueSolution() bool {
 	solutions := b.countSolutions(0)
 	return solutions == 1
 }
 
-// countSolutions counts the number of possible solutions (up to maxSolutions)
+// countSolutions は可能な解の数を数える（maxSolutionsまで）
 func (b *Board) countSolutions(maxSolutions int) int {
-	// Make a copy of the board
+	// 盤面のコピーを作成
 	originalGrid := b.grid
 	defer func() { b.grid = originalGrid }()
 
 	return b.countSolutionsRecursive(maxSolutions)
 }
 
-// countSolutionsRecursive recursively counts solutions
+// countSolutionsRecursive は再帰的に解の数を数える
 func (b *Board) countSolutionsRecursive(maxSolutions int) int {
-	// Find the first empty cell
+	// 最初の空のセルを見つける
 	row, col := b.findEmptyCell()
 	if row == -1 {
-		// No empty cell found, found one solution
+		// 空のセルが見つからない、一つの解を発見
 		return 1
 	}
 
 	solutionCount := 0
-	// Try digits 1-9
+	// 1-9の数字を試す
 	for num := 1; num <= 9; num++ {
 		if b.IsValid(row, col, num) {
-			// Place the number
+			// 数字を配置
 			b.grid[row][col] = num
 
-			// Recursively count solutions
+			// 再帰的に解の数を数える
 			solutionCount += b.countSolutionsRecursive(maxSolutions)
 
-			// Early exit if we've found enough solutions
+			// 十分な解が見つかった場合は早期終了
 			if maxSolutions > 0 && solutionCount >= maxSolutions {
 				b.grid[row][col] = 0
 				return solutionCount
 			}
 
-			// Backtrack
+			// バックトラック
 			b.grid[row][col] = 0
 		}
 	}
