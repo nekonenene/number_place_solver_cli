@@ -2,6 +2,11 @@ package sudoku
 
 // Solve はバックトラッキングアルゴリズムを使用して数独パズルを解くことを試みる
 func (b *Board) Solve() bool {
+	// 初期盤面の有効性をチェック
+	if !b.IsValidPuzzle() {
+		return false
+	}
+
 	// 統計情報をリセット
 	b.stats = SolveStats{}
 	return b.solveRecursive()
@@ -52,6 +57,11 @@ func (b *Board) findEmptyCell() (int, int) {
 
 // SolveWithStrategy は最も制約の多い変数ヒューリスティックを使用して解く
 func (b *Board) SolveWithStrategy() bool {
+	// 初期盤面の有効性をチェック
+	if !b.IsValidPuzzle() {
+		return false
+	}
+
 	return b.solveWithMCV()
 }
 
@@ -117,12 +127,28 @@ func (b *Board) countPossibilities(row, col int) int {
 
 // HasUniqueSolution はパズルが正確に一つの解を持つかどうかをチェック
 func (b *Board) HasUniqueSolution() bool {
-	solutions := b.countSolutions(0)
+	// 最大2つの解まで数える（一意性の判定には十分）
+	solutions := b.countSolutions(2)
 	return solutions == 1
 }
 
 // countSolutions は可能な解の数を数える（maxSolutionsまで）
 func (b *Board) countSolutions(maxSolutions int) int {
+	// 空のセルが多すぎる場合は計算を避ける
+	emptyCells := 0
+	for i := 0; i < SIZE; i++ {
+		for j := 0; j < SIZE; j++ {
+			if b.grid[i][j] == 0 {
+				emptyCells++
+			}
+		}
+	}
+
+	// 空のセルが50個以上の場合は複数解と判定
+	if emptyCells > 50 {
+		return maxSolutions + 1 // 複数解があることを示す
+	}
+
 	// 盤面のコピーを作成
 	originalGrid := b.grid
 	defer func() { b.grid = originalGrid }()

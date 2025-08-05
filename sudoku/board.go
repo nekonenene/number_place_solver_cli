@@ -6,7 +6,7 @@ const SIZE = 9 // 数独盤面のサイズ
 
 // Board は検証と解法機能を持つ数独盤面を表す
 type Board struct {
-	grid [SIZE][SIZE]int
+	grid  [SIZE][SIZE]int
 	stats SolveStats // 解法統計情報
 }
 
@@ -143,4 +143,24 @@ func (b *Board) IsSolved() bool {
 // GetStats は解法統計情報を返す
 func (b *Board) GetStats() SolveStats {
 	return b.stats
+}
+
+// IsValidPuzzle は初期盤面が有効な数独パズルかどうかをチェック
+func (b *Board) IsValidPuzzle() bool {
+	// 全ての既に埋められたセルが制約を満たしているかチェック
+	for i := 0; i < SIZE; i++ {
+		for j := 0; j < SIZE; j++ {
+			if b.grid[i][j] != 0 {
+				// 一時的にセルを空にして制約をチェック
+				value := b.grid[i][j]
+				b.grid[i][j] = 0
+				if !b.IsValid(i, j, value) {
+					b.grid[i][j] = value // 元に戻す
+					return false
+				}
+				b.grid[i][j] = value // 元に戻す
+			}
+		}
+	}
+	return true
 }

@@ -79,6 +79,11 @@ func (b *Board) LoadFromString(input string) error {
 		}
 	}
 
+	// 読み込み後に盤面の有効性をチェック
+	if !b.IsValidPuzzle() {
+		return fmt.Errorf("無効な数独パズル: 制約違反があります（重複する数字など）")
+	}
+
 	return nil
 }
 
@@ -176,6 +181,11 @@ func (b *Board) FromSimpleString(input string) error {
 			}
 			b.grid[i][j] = value
 		}
+	}
+
+	// 読み込み後に盤面の有効性をチェック
+	if !b.IsValidPuzzle() {
+		return fmt.Errorf("無効な数独パズル: 制約違反があります（重複する数字など）")
 	}
 
 	return nil
