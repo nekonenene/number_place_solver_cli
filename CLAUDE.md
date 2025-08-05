@@ -36,7 +36,7 @@ Goで実装された数独パズル解法アプリケーションです。バッ
 
 ### ビルドと実行
 - アプリケーションの実行: `go run main.go`
-- バイナリのビルド: `go build`
+- バイナリのビルド: `go build -o bin/sudoku_solver main.go`
 
 ## 使用例
 
