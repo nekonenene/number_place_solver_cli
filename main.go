@@ -2,14 +2,14 @@ package main
 
 import (
 	"fmt"
+	"number_place_solver/number_place"
 	"os"
-	"sudoku_solver/sudoku"
 	"time"
 )
 
 // showUsage は使用方法を表示する
 func showUsage() {
-	fmt.Printf("数独ソルバー\n")
+	fmt.Printf("ナンバープレースを解きます\n")
 	fmt.Printf("============\n\n")
 	fmt.Printf("使用方法:\n")
 	fmt.Printf("  %s                    # 対話形式で入力\n", os.Args[0])
@@ -25,12 +25,12 @@ func showUsage() {
 }
 
 // loadPuzzle は引数に応じてパズルを読み込む
-func loadPuzzle(puzzle *sudoku.Board) error {
+func loadPuzzle(puzzle *number_place.Board) error {
 	args := os.Args[1:]
 
 	if len(args) == 0 {
 		// 引数なし：対話形式
-		fmt.Println("数独ソルバー")
+		fmt.Println("ナンバープレースを解きます")
 		fmt.Println("============")
 		fmt.Println()
 		return puzzle.LoadFromInteractiveInput()
@@ -62,7 +62,7 @@ func loadPuzzle(puzzle *sudoku.Board) error {
 }
 
 // solvePuzzle はパズルを解いて結果を表示する
-func solvePuzzle(puzzle *sudoku.Board) {
+func solvePuzzle(puzzle *number_place.Board) {
 	fmt.Println("\n入力された問題:")
 	puzzle.Print()
 
@@ -78,7 +78,7 @@ func solvePuzzle(puzzle *sudoku.Board) {
 
 		// 統計情報を表示
 		stats := puzzle.GetStats()
-		fmt.Printf("\n数独の解答が完了しました！\n")
+		fmt.Printf("\nナンバープレースの解答が完了しました！\n")
 		fmt.Printf("解答時間: %v\n", elapsedTime)
 		fmt.Printf("セル設定回数: %d回\n", stats.CellsSet)
 		fmt.Printf("バックトラック回数: %d回\n", stats.BacktrackCount)
@@ -101,8 +101,8 @@ func main() {
 		return
 	}
 
-	// 空の数独盤面を作成
-	puzzle := sudoku.NewBoard()
+	// 空のナンバープレースの盤面を作成
+	puzzle := number_place.NewBoard()
 
 	// パズルを読み込み
 	if err := loadPuzzle(puzzle); err != nil {

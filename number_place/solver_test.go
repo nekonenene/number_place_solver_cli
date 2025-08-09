@@ -1,4 +1,4 @@
-package sudoku
+package number_place
 
 import (
 	"testing"
@@ -91,7 +91,7 @@ func TestSolveComparison(t *testing.T) {
 		t.Error("両方の解法で正しい解が得られませんでした")
 	}
 
-	// 注意：数独は複数の解を持つことがあるため、必ずしも同じ解になるとは限らない
+	// 注意：ナンバープレースは複数の解を持つことがあるため、必ずしも同じ解になるとは限らない
 	// しかし、両方とも有効な解であることは確認できる
 }
 

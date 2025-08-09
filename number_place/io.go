@@ -1,4 +1,4 @@
-package sudoku
+package number_place
 
 import (
 	"bufio"
@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-// LoadFromString は文字列表現から数独パズルを読み込む
+// LoadFromString は文字列表現からナンバープレースを読み込む
 func (b *Board) LoadFromString(input string) error {
 	lines := strings.Split(strings.TrimSpace(input), "\n")
 	if len(lines) != SIZE {
@@ -81,13 +81,13 @@ func (b *Board) LoadFromString(input string) error {
 
 	// 読み込み後に盤面の有効性をチェック
 	if !b.IsValidPuzzle() {
-		return fmt.Errorf("無効な数独パズル: 制約違反があります（重複する数字など）")
+		return fmt.Errorf("無効なナンバープレース: 制約違反があります（重複する数字など）")
 	}
 
 	return nil
 }
 
-// LoadFromReader はio.Readerから数独パズルを読み込む
+// LoadFromReader はio.Readerからナンバープレースを読み込む
 func (b *Board) LoadFromReader(reader io.Reader) error {
 	scanner := bufio.NewScanner(reader)
 	var lines []string
@@ -185,15 +185,15 @@ func (b *Board) FromSimpleString(input string) error {
 
 	// 読み込み後に盤面の有効性をチェック
 	if !b.IsValidPuzzle() {
-		return fmt.Errorf("無効な数独パズル: 制約違反があります（重複する数字など）")
+		return fmt.Errorf("無効なナンバープレース: 制約違反があります（重複する数字など）")
 	}
 
 	return nil
 }
 
-// LoadFromInteractiveInput は対話形式で数独パズルを入力する
+// LoadFromInteractiveInput は対話形式でナンバープレースを入力する
 func (b *Board) LoadFromInteractiveInput() error {
-	fmt.Println("数独の問題を入力してください（9行×9列）")
+	fmt.Println("ナンバープレースの問題を入力してください（9行×9列）")
 	fmt.Println("空欄は半角スペース、ドット(.)、または0で入力できます")
 	fmt.Println("例: 53..7....")
 	fmt.Println()

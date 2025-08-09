@@ -1,21 +1,21 @@
-# Sudoku Solver プロジェクト
+# Number Place Solver プロジェクト
 
 ## プロジェクト概要
 
-Goで実装された数独パズル解法アプリケーションです。バックトラッキングアルゴリズムを使用して数独パズルを解きます。
+Goで実装されたナンバープレース（数独）解法アプリケーションです。バックトラッキングアルゴリズムを使用してナンバープレースを解きます。
 
 ## アーキテクチャ
 
 ### パッケージ構成
 - `main.go`: アプリケーションのエントリーポイント
-- `sudoku/`: 数独関連のコアロジック
+- `number_place/`: ナンバープレース関連のコアロジック
   - `board.go`: 盤面の基本操作と検証機能
   - `solver.go`: 解法アルゴリズム
   - `io.go`: 入出力処理
   - `board_test.go`: テストケース
 
 ### 主要な機能
-- 数独盤面の表現と操作
+- ナンバープレース盤面の表現と操作
 - バックトラッキング解法アルゴリズム
 - 最適化されたMCV（Most Constrained Variable）ヒューリスティック
 - 複数の入出力形式対応
@@ -33,19 +33,19 @@ Goで実装された数独パズル解法アプリケーションです。バッ
 - ファイルの末尾に改行文字を含む
 
 ### テスト
-- テストの実行: `go test ./sudoku`
-- カバレッジの確認: `go test -cover ./sudoku`
+- テストの実行: `go test ./number_place`
+- カバレッジの確認: `go test -cover ./number_place`
 
 ### ビルドと実行
 - アプリケーションの実行: `go run main.go`
-- バイナリのビルド: `go build -o bin/sudoku_solver main.go`
+- バイナリのビルド: `go build -o bin/number_place_solver main.go`
 
 ## 使用例
 
 ### 基本的な使用方法
 ```go
 // 新しい盤面を作成
-board := sudoku.NewBoard()
+board := number_place.NewBoard()
 
 // パズルデータを設定
 puzzle := [9][9]int{
@@ -80,7 +80,7 @@ if board.Solve() {
 ## データ構造
 
 ### Board構造体
-- `grid [9][9]int`: 数独盤面の内部表現
+- `grid [9][9]int`: ナンバープレース盤面の内部表現
 - 0は空のセル、1-9は確定した数字
 
 ### 主要メソッド

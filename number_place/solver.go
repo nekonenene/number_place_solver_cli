@@ -1,6 +1,6 @@
-package sudoku
+package number_place
 
-// Solve はバックトラッキングアルゴリズムを使用して数独パズルを解くことを試みる
+// Solve はバックトラッキングアルゴリズムを使用してナンバープレースを解くことを試みる
 func (b *Board) Solve() bool {
 	// 初期盤面の有効性をチェック
 	if !b.IsValidPuzzle() {

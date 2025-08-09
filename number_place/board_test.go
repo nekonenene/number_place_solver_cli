@@ -1,4 +1,4 @@
-package sudoku
+package number_place
 
 import (
 	"strings"

@@ -1,10 +1,10 @@
-package sudoku
+package number_place
 
 import "fmt"
 
-const SIZE = 9 // 数独盤面のサイズ
+const SIZE = 9 // ナンバープレース盤面のサイズ
 
-// Board は検証と解法機能を持つ数独盤面を表す
+// Board は検証と解法機能を持つナンバープレース盤面を表す
 type Board struct {
 	grid  [SIZE][SIZE]int
 	stats SolveStats // 解法統計情報
@@ -16,7 +16,7 @@ type SolveStats struct {
 	CellsSet       int // 設定したセル数
 }
 
-// NewBoard は新しい空の数独盤面を作成する
+// NewBoard は新しい空のナンバープレース盤面を作成する
 func NewBoard() *Board {
 	return &Board{}
 }
@@ -145,7 +145,7 @@ func (b *Board) GetStats() SolveStats {
 	return b.stats
 }
 
-// IsValidPuzzle は初期盤面が有効な数独パズルかどうかをチェック
+// IsValidPuzzle は初期盤面が有効なナンバープレースかどうかをチェック
 func (b *Board) IsValidPuzzle() bool {
 	// 全ての既に埋められたセルが制約を満たしているかチェック
 	for i := 0; i < SIZE; i++ {

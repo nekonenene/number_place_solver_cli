@@ -1,4 +1,4 @@
-package sudoku
+package number_place
 
 import (
 	"bytes"
@@ -274,7 +274,7 @@ func TestValidateLine(t *testing.T) {
 // TestFileOperations はファイル操作のテスト
 func TestFileOperations(t *testing.T) {
 	// 一時ファイルを作成
-	tmpFile, err := os.CreateTemp("", "sudoku_test_*.txt")
+	tmpFile, err := os.CreateTemp("", "number_place_test_*.txt")
 	if err != nil {
 		t.Fatalf("一時ファイルの作成に失敗: %v", err)
 	}
@@ -321,7 +321,7 @@ func TestFileOperations(t *testing.T) {
 	// 解いて保存をテスト
 	if board.Solve() {
 		// 新しい一時ファイルに保存
-		outFile, err := os.CreateTemp("", "sudoku_output_*.txt")
+		outFile, err := os.CreateTemp("", "number_place_output_*.txt")
 		if err != nil {
 			t.Fatalf("出力ファイルの作成に失敗: %v", err)
 		}
